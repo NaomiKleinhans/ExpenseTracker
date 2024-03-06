@@ -1,95 +1,90 @@
-// pages/index.js
 import React, { useState } from 'react'
-import ExpenseList from '../components/ExpenseList'
+import ExpenseItem from '@/components/ExpenseItem'
+import ExpenseList from '@/components/ExpenseList'
 
-const Index = () => {
-	const [items, setItems] = useState([])
-	const [itemName, setItemName] = useState('')
-	const [itemCost, setItemCost] = useState('')
-	const [total, setTotal] = useState(0)
+const ExpenseTracker = () => {
+	const [expenses, setExpenses] = useState([])
+	const [description, setDescription] = useState('')
+	const [amount, setAmount] = useState('')
+	const [type, setType] = useState('expense') // Default to expense
+	const [balance, setBalance] = useState(0)
+	const [totalIncome, setTotalIncome] = useState(0)
+	const [totalExpense, setTotalExpense] = useState(0)
+	const [date, setDate] = useState(new Date().toLocaleDateString())
 
-	const handleChange = (e) => {
-		const { name, value } = e.target
-		if (name === 'itemName') {
-			setItemName(value)
-		} else if (name === 'itemCost') {
-			setItemCost(value)
+	const addExpense = () => {
+		if (!description.trim() || !amount.trim()) return
+		const newExpense = {
+			id: expenses.length + 1,
+			description,
+			amount: parseFloat(amount),
+			type,
+			date
 		}
+		setExpenses([...expenses, newExpense])
+		setBalance(
+			type === 'expense'
+				? balance - parseFloat(amount)
+				: balance + parseFloat(amount)
+		)
+		if (type === 'expense') {
+			setTotalExpense(totalExpense + parseFloat(amount))
+		} else {
+			setTotalIncome(totalIncome + parseFloat(amount))
+		}
+		setDescription('')
+		setAmount('')
+		setDate(new Date().toLocaleDateString())
 	}
 
-	const handleAddItem = () => {
-		if (itemName && itemCost) {
-			const newItem = {
-				name: itemName,
-				cost: parseFloat(itemCost)
+	const removeExpense = (id) => {
+		const expenseToRemove = expenses.find((expense) => expense.id === id)
+		if (expenseToRemove) {
+			setExpenses(expenses.filter((expense) => expense.id !== id))
+			setBalance(
+				expenseToRemove.type === 'expense'
+					? balance + expenseToRemove.amount
+					: balance - expenseToRemove.amount
+			)
+			if (expenseToRemove.type === 'expense') {
+				setTotalExpense(totalExpense - expenseToRemove.amount)
+			} else {
+				setTotalIncome(totalIncome - expenseToRemove.amount)
 			}
-			setItems([...items, newItem])
-			setTotal(total + parseFloat(itemCost))
-			setItemName('')
-			setItemCost('')
 		}
-	}
-
-	const handleDeleteItem = (index) => {
-		const newItems = [...items]
-		const deletedItemCost = newItems[index].cost
-		newItems.splice(index, 1)
-		setItems(newItems)
-		setTotal(total - deletedItemCost)
-	}
-
-	const handleClearList = () => {
-		setItems([])
-		setTotal(0)
 	}
 
   return (
 		<>
-			<div className='text-2xl text-center mt-10 font-bold mb-4 text-white'>
-				Expense Tracker
-			</div>
-			<div className='card m-10 p-4 bg-gray-500 rounded-md'>
-				<div className='mb-4  flex justify-center'>
-					<input
-						type='text'
-						placeholder='Item Name'
-						name='itemName'
-						value={itemName}
-						onChange={handleChange}
-						className='border border-gray-400 rounded p-2 mr-2 text-black'
-					/>
-					<input
-						type='number'
-						placeholder='Cost'
-						name='itemCost'
-						value={itemCost}
-						onChange={handleChange}
-						className='border border-gray-400 rounded p-2 mr-2 text-black'
-					/>
-					<button
-						onClick={handleAddItem}
-						className='bg-blue-500 text-white px-4 py-2 rounded'
-					>
-						Add Item
-					</button>
-				</div>
-
-				<ExpenseList
-					items={items}
-					onDelete={handleDeleteItem}
+			<div className='mt-2 text-4xl text-white font-bold text-center'>Expense Tracker</div>
+			<div
+				className='container bg-light mt-5 p-5 
+                        border border-dark col-md-8'
+			>
+				<ExpenseItem
+					description={description}
+					setDescription={setDescription}
+					amount={amount}
+					setAmount={setAmount}
+					date={date}
+					setDate={setDate}
+					type={type}
+					setType={setType}
+					balance={balance}
+					setBalance={setBalance}
+					totalIncome={totalIncome}
+					setTotalIncome={setTotalIncome}
+					totalExpense={totalExpense}
+					setTotalExpense={setTotalExpense}
+					addExpense={addExpense}
 				/>
-				<div className='mb-4  flex justify-center'>
-					<span>Total: {total.toFixed(2)}</span>
-				</div>
-				<button
-					onClick={handleClearList}
-					className='bg-gray-900 text-white px-4 py-2 rounded place-content-center'
-				>
-					Clear List
-				</button>
+				<ExpenseList
+					expenses={expenses}
+					removeExpense={removeExpense}
+				/>
 			</div>
 		</>
 	)
 }
 
-export default Index
+export default ExpenseTracker
