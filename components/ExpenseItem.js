@@ -24,7 +24,7 @@ const ExpenseItem = ({
 					<div className='text-center text-white text-2xl font-bold'>
 						<h3>
 							Balance:
-							<b className='text-white text-2xl'>${balance.toFixed(2)}</b>
+							<b className='text-white text-2xl'> ${balance.toFixed(2)}</b>
 						</h3>
 					</div>
 				</div>
@@ -44,10 +44,10 @@ const ExpenseItem = ({
 				</div>
 			</div>
 
-			<div className='mb-3'>
+			<div className='my-3'>
 				<input
 					type='text'
-					className='form-control'
+					className='form-control bg-mainBg border-2 border-white rounded-sm w-full p-2'
 					placeholder='Description'
 					value={description}
 					onChange={(e) => setDescription(e.target.value)}

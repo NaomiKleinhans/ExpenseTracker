@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ExpenseItem from '@/components/ExpenseItem'
 import ExpenseList from '@/components/ExpenseList'
+import Image from 'next/image'
 
 const ExpenseTracker = () => {
 	const [expenses, setExpenses] = useState([])
@@ -54,12 +55,21 @@ const ExpenseTracker = () => {
 		}
 	}
 
-  return (
+	return (
 		<>
-			<div className='mt-2 text-4xl text-white font-bold text-center'>Expense Tracker</div>
+			<div className=''>
+				<Image
+					src='/logo.png'
+					alt='Logo'
+					height='200'
+					width='200'
+				/>
+			</div>
+			<div className='-mt-32 text-4xl text-white font-bold text-center'>
+				Expense Tracker
+			</div>
 			<div
-				className='container bg-light mt-5 p-5 
-                        border border-dark col-md-8'
+				className='container bg-compBg w-3/4 mx-auto mt-20 p-5 rounded-lg shadow-lg'
 			>
 				<ExpenseItem
 					description={description}
