@@ -6,18 +6,23 @@ module.exports = {
 		'./app/**/*.{js,ts,jsx,tsx,mdx}'
 	],
 	theme: {
+		screens: {
+			sm: { max: '800px' },
+			md: { min: '801px', max: '1200px' },
+			lg: { min: '1201px' }
+		},
 		colors: {
-			themeColorMain: '#5A75CE',
+			themeColorMain: '#6300c0',
 			themeColorSecondary: '#CEB35A',
 			textColor: '#EBE0BC',
 			appBg: '#121212',
 			compBg: '#181818',
 			mainBg: '#000000',
-			welcomeCard: '#EC5640',
 			success: '#22bb33',
 			danger: '#bb2124',
 			warning: '#f0ad4e',
-			info: '#5bc0de'
+			info: '#5bc0de',
+			details:'#999999'
 		},
 		extend: {
 			backgroundImage: {

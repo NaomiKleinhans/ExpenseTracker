@@ -1,40 +1,55 @@
-import React from 'react'
+import React from 'react';
 
 const ExpenseList = ({ expenses, removeExpense }) => {
-	return (
-		<div>
-			<ul className='list-group mt-3'>
-				{expenses.map((expense) => (
-					<li
-						key={expense.id}
-						className={`list-group-item d-flex 
-                                    justify-content-between
-                                     align-items-center 
-                                    ${
-																			expense.type === 'expense'
-																				? 'text-danger'
-																				: 'text-success'
-																		}`}
-					>
-						<div>
-							<h4>
-								{expense.description} - ${expense.amount}
-							</h4>
-							<small className='text-muted'>{expense.date}</small>
-						</div>
-						<div>
-							<button
-								className='btn btn-danger'
-								onClick={() => removeExpense(expense.id)}
-							>
-								Remove
-							</button>
-						</div>
-					</li>
-				))}
-			</ul>
-		</div>
-	)
-}
+  const totalExpenses = expenses.length;
 
-export default ExpenseList
+  const handleClearAll = () => {
+    // Remove all expenses
+    expenses.forEach((expense) => removeExpense(expense.id));
+  };
+
+  return (
+    <div>
+      <ul className='container bg-compBg mt-3'>
+        {expenses.map((expense) => (
+          <li
+            key={expense.id}
+            className={`divider-y p-3 flex bg-compBg items-center justify-between 
+                                    R{
+                                      expense.type === 'expense'
+                                        ? 'text-danger'
+                                        : 'text-success'
+                                    }`}
+          >
+            <div>
+              <div className='text-2xl font-semibold '>
+                {expense.description} - R{expense.amount}
+              </div>
+              <div className='text-md text-details'>{expense.date}</div>
+            </div>
+            <div>
+              <button
+                className='bg-danger text-[#fff] px-2 py-1 rounded-lg'
+                onClick={() => removeExpense(expense.id)}
+              >
+                X
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      {/* {totalExpenses > 1 && (
+        <div className='my-3 flex justify-end'>
+          <button
+            className='bg-danger text-[#fff] px-2 py-1 rounded-lg text-xs'
+            onClick={handleClearAll}
+          >
+            Clear all
+          </button>
+        </div>
+      )} */}
+    </div>
+  );
+};
+
+export default ExpenseList;

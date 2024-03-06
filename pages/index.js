@@ -91,6 +91,7 @@ const ExpenseTracker = () => {
 				<ExpenseList
 					expenses={expenses}
 					removeExpense={removeExpense}
+					
 				/>
 			</div>
 		</>

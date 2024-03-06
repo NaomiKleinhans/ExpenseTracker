@@ -24,7 +24,18 @@ const ExpenseItem = ({
 					<div className='text-center text-white text-2xl font-bold'>
 						<h3>
 							Balance:
-							<b className='text-white text-2xl'> ${balance.toFixed(2)}</b>
+							<b
+								className={`text-2xl R{
+									balance === 0
+										? 'text-[#fff]'
+										: balance > 0
+										? 'text-success'
+										: 'text-danger'
+								}`}
+							>
+								{' '}
+								R{balance.toFixed(2)}
+							</b>
 						</h3>
 					</div>
 				</div>
@@ -32,19 +43,19 @@ const ExpenseItem = ({
 					<div className='col-md-4'>
 						<h3>
 							Income <br />
-							<span className='text-success'>${totalIncome.toFixed(2)}</span>
+							<span className='text-success'>R{totalIncome.toFixed(2)}</span>
 						</h3>
 					</div>
 					<div className='col-md-4'>
 						<h3>
 							Expense <br />
-							<span className='text-danger'>${totalExpense.toFixed(2)}</span>
+							<span className='text-danger'>R{totalExpense.toFixed(2)}</span>
 						</h3>
 					</div>
 				</div>
 			</div>
 
-			<div className='my-3'>
+			<div className='my-3 justify-between'>
 				<input
 					type='text'
 					className='form-control bg-mainBg border-2 border-white rounded-sm w-full p-2'
@@ -53,50 +64,46 @@ const ExpenseItem = ({
 					onChange={(e) => setDescription(e.target.value)}
 				/>
 			</div>
-			<div className='row'>
-				<div className='col-md-4'>
-					<div className='mb-3'>
-						<input
-							type='number'
-							className='form-control'
-							placeholder='Amount'
-							value={amount}
-							onChange={(e) => setAmount(e.target.value)}
-						/>
-					</div>
+			<div className='lg:flex md:flex gap-5'>
+				<div className='my-3'>
+					<input
+						type='number'
+						className='form-control bg-mainBg w-auto p-2 border-2 border-white rounded-sm'
+						placeholder='Amount'
+						value={amount}
+						onChange={(e) => setAmount(e.target.value)}
+					/>
 				</div>
-				<div className='col-md-4'>
-					<div className='mb-3'>
-						<input
-							type='date'
-							className='form-control'
-							value={date}
-							onChange={(e) => setDate(e.target.value)}
-						/>
-					</div>
+
+				<div className='my-3'>
+					<input
+						type='date'
+						className='form-control bg-mainBg w-auto p-2 border-2 border-white rounded-sm'
+						placeholder='Date'
+						value={date}
+						onChange={(e) => setDate(e.target.value)}
+					/>
 				</div>
-				<div className='col-md-4'>
-					<div className='mb-3'>
-						<select
-							className='form-select'
-							value={type}
-							onChange={(e) => setType(e.target.value)}
-						>
-							<option value='expense'>Expense</option>
-							<option value='income'>Income</option>
-						</select>
-					</div>
+
+				<div className='my-3'>
+					<select
+						className='form-select bg-mainBg w-auto p-2 border-2 border-white rounded-sm'
+						placeholder='Type'
+						value={type}
+						onChange={(e) => setType(e.target.value)}
+					>
+						<option value='expense'>Expense</option>
+						<option value='income'>Income</option>
+					</select>
 				</div>
 			</div>
 			<div className='row'>
-				<div className='col-md-6'>
-					<button
-						className='btn btn-primary'
-						onClick={addExpense}
-					>
-						Add Transaction
-					</button>
-				</div>
+				<button
+					className='bg-themeColorMain rounded-lg p-3'
+					onClick={addExpense}
+				>
+					Add Transaction
+				</button>
 			</div>
 		</>
 	)
